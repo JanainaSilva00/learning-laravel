@@ -3,9 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\ModelBook;
+use App\User;
 
 class BookController extends Controller
 {
+    private $objUser;
+    private $objBook;
+
+    public function __construct()
+    {
+        $this->objUser = new User();
+        $this->objBook = new ModelBook();
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +24,8 @@ class BookController extends Controller
      */
     public function index()
     {
-        return view('index');
+        $books = $this->objBook->all();
+        return view('index', compact('books'));
     }
 
     /**
@@ -23,7 +35,8 @@ class BookController extends Controller
      */
     public function create()
     {
-        //
+        $users = $this->objUser->all();
+        return view('create', compact('users'));
     }
 
     /**
@@ -34,7 +47,16 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $cad = $this->objBook->create([
+            'title' => $request->title,
+            'pages' => $request->pages,
+            'price' => $request->price,
+            'id_user' => $request->id_user,
+        ]);
+
+        if ($cad) {
+            return redirect('books');
+        }
     }
 
     /**
@@ -45,7 +67,8 @@ class BookController extends Controller
      */
     public function show($id)
     {
-        //
+        $book = $this->objBook->find($id);
+        return view('show', compact('book'));
     }
 
     /**
