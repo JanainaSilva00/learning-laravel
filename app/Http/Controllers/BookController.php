@@ -24,7 +24,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = $this->objBook->all();
+        $books = $this->objBook->paginate(2);
         return view('index', compact('books'));
     }
 
@@ -112,6 +112,7 @@ class BookController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $del = $this->objBook->destroy($id);
+        return $del ? '200' : '500';
     }
 }

@@ -9,5 +9,6 @@
     </head>
     <body>
         @yield('content')
+    <script src="{{ url('assets/js/custom.js') }}"></script>
     </body>
 </html>
